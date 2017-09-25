@@ -1,0 +1,27 @@
+ Data---
+ This model is trained using the DeepFashion database
+ https://drive.google.com/drive/folders/0B7EVK8r0v71pWGplNFhjc01NbzQ
+ In case the above link is removed, try navigate through the follwing link
+ http://mmlab.ie.cuhk.edu.hk/projects/DeepFashion.html
+ 
+ Models---
+ model_w_label: this model only trains the cloth category directly
+ model_w_bbox_n_label: this model aims to train a bounding box area first and use that to assist the category training. 
+  
+ Instructions---
+ For detailed instructions on data preparation of LMDB and HDF5 check under Docs/ 
+ Once you got the data prepared, here's what you need for training. 
+ 
+ Training---
+ Eg.
+ train with ResNet-50 weight initialization(optional) and subtrain1 data set, and save the log
+ ../../../../build/tools/caffe train -solver solver.prototxt -weights ResNet-50-model.caffemodel  2>&1 | tee subtrain1.log 
+ Note: The ResNet-50 weight file is too big to upload. Refer to He et al.'s ResNet git repo listed under 'Reference'
+
+Testing---
+Eg.
+test with subtrain2 data set and save log file (subtrain2 has 52292 data points and 6536.5 batch, test itself round to 6535)
+../../../../../build/tools/caffe test -model train.prototxt -weights caffenet_train_iter_60000.caffemodel -gpu 0 -iterations 6537 2>&1 | tee subtrain2.log
+
+
+
